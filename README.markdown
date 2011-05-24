@@ -64,6 +64,7 @@ curl -d "GET/hello" http://127.0.0.1:7379/
 	* Timeout on the redis side: 503 Service Unavailable.
 	* Missing key: 404 Not Found.
 	* Unauthorized command (disabled in config file): 403 Forbidden.
+	* Custom content-type with command lacking a string or number response: 400 Bad Request.
 
 # Command format
 The URI `/COMMAND/arg0/arg1/.../argN.ext` executes the command on Redis and returns the response to the client. GET and POST are supported:
