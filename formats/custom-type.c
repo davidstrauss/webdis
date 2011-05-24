@@ -37,11 +37,16 @@ custom_type_reply(redisAsyncContext *c, void *r, void *privdata) {
 				int_len = sprintf(int_buffer, "%lld", reply->integer);
 				format_send_reply(cmd, int_buffer, int_len, cmd->mime);
 				return;
+
+			case REDIS_REPLY_ARRAY:
+				# TODO: Avoid assuming the command is BLPOP.
+				format_send_reply(cmd, reply->element[1]->str, reply->element[1]->len, cmd->mime);
+				return;
 		}
 	}
 
 	/* couldn't make sense of what the client wanted. */
-	http_response_init(&resp, 400, "Bad Request");
+	http_response_init(&resp, 401, "Bad Request");
 	http_response_set_header(&resp, "Content-Length", "0");
 	http_response_set_keep_alive(&resp, cmd->keep_alive);
 	http_response_write(&resp, cmd->fd);
