@@ -72,7 +72,7 @@ socket_setup(const char *ip, short port) {
 
 struct server *
 server_new(const char *cfg_file) {
-	
+
 	int i;
 	struct server *s = calloc(1, sizeof(struct server));
 
